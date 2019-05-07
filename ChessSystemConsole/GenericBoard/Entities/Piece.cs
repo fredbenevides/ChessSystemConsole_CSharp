@@ -1,4 +1,6 @@
-﻿namespace GenericBoard
+﻿using GenericBoard.Entities.Enums;
+
+namespace GenericBoard.Entities
 {
     public class Piece
     {

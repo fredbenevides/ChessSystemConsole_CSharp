@@ -1,5 +1,7 @@
-﻿using GenericBoard;
-namespace Chess
+﻿using GenericBoard.Entities.Enums;
+using GenericBoard.Entities;
+
+namespace Chess.Entities
 {
     public class Rook : Piece
     {

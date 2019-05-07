@@ -7,5 +7,13 @@
 
   <ItemGroup>
     <Folder Include="GenericBoard\" />
+    <Folder Include="Chess\" />
+    <Folder Include="Chess\Entities\" />
+    <Folder Include="GenericBoard\Entities\" />
+    <Folder Include="GenericBoard\Entities\Enums\" />
+    <Folder Include="GenericBoard\Exceptions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Chess\Piece.cs" />
   </ItemGroup>
 </Project>

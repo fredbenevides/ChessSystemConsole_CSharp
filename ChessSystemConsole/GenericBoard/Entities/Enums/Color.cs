@@ -1,5 +1,4 @@
-﻿
-namespace GenericBoard
+﻿namespace GenericBoard.Entities.Enums
 {
     public enum Color : int
     {

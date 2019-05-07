@@ -1,4 +1,4 @@
-﻿namespace GenericBoard
+﻿namespace GenericBoard.Entities
 {
     public class Position
     {

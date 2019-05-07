@@ -1,5 +1,5 @@
 ﻿using System;
-using GenericBoard;
+using GenericBoard.Entities;
 namespace ChessSystemConsole
 {
     public class UI
