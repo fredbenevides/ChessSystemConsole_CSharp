@@ -6,6 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Board\" />
+    <Folder Include="GenericBoard\" />
   </ItemGroup>
 </Project>

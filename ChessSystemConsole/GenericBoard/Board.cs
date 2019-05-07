@@ -1,4 +1,4 @@
-﻿namespace Board
+﻿namespace GenericBoard
 {
     public class Board
     {
@@ -15,6 +15,11 @@
             Ranges = ranges;
             Collumns = collumns;
             Pieces = new Piece[ranges, collumns];
+        }
+
+        public Piece Piece(int range, int collumn)
+        {
+            return Pieces[range, collumn];
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-namespace Board
+namespace GenericBoard
 {
     public enum Color : int
     {
