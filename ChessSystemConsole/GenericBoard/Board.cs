@@ -21,5 +21,11 @@
         {
             return Pieces[range, collumn];
         }
+
+        public void PlacePiece(Piece piece, Position position)
+        {
+            Pieces[position.Range, position.Collumn] = piece;
+            piece.Position = position;
+        }
     }
 }
