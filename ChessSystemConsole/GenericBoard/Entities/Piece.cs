@@ -2,7 +2,7 @@
 
 namespace GenericBoard.Entities
 {
-    public class Piece
+    public abstract class Piece
     {
         public Position Position { get; set; }
         public Color Color { get; protected set; }
@@ -25,5 +25,7 @@ namespace GenericBoard.Entities
         {
             QuantityOfMoves++;
         }
+
+        public abstract bool[,] PossibleTargetPositions();
     }
 }
