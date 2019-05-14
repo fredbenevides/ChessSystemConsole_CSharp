@@ -1,4 +1,5 @@
-﻿using GenericBoard.Exceptions;
+﻿using GenericBoard.Entities;
+using GenericBoard.Exceptions;
 
 namespace GenericBoard.Entities
 {
@@ -43,6 +44,18 @@ namespace GenericBoard.Entities
             }
             Pieces[position.Range, position.Collumn] = piece;
             piece.Position = position;
+        }
+
+        public Piece RemovePiece(Position position)
+        {
+            if (!ThereIsAPiece(position))
+            {
+                return null;
+            }
+            Piece aux = Piece(position);
+            aux.Position = null;
+            Pieces[position.Range, position.Collumn] = null;
+            return aux;
         }
 
         public bool ValidPosition(Position position) => position.Range >= 0 && position.Range < Ranges && position.Collumn >= 0 && position.Collumn < Collumns;

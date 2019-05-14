@@ -20,5 +20,10 @@ namespace GenericBoard.Entities
             Board = board;
             QuantityOfMoves = 0;
         }
+
+        public void IncreaseQuantityOfMoves()
+        {
+            QuantityOfMoves++;
+        }
     }
 }

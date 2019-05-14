@@ -1,6 +1,7 @@
 ﻿using System;
 using GenericBoard.Entities;
 using GenericBoard.Entities.Enums;
+using Chess.Entities;
 namespace ChessSystemConsole
 {
     public class UI
@@ -18,7 +19,18 @@ namespace ChessSystemConsole
                 {
                     if(board.Piece(i, j) == null)
                     {
-                        Console.Write("- ");
+                        if ((i + j) % 2 == 0)
+                        {
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("- ");
+                            Console.ForegroundColor = aux;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.Write("- ");
+                            Console.ForegroundColor = aux;
+                        }
                     }
                     else
                     {
@@ -48,6 +60,14 @@ namespace ChessSystemConsole
                 Console.Write(piece);
                 Console.ForegroundColor = aux;
             }
+        }
+
+        public static ChessPosition ReadChessPosition()
+        {
+            string s = Console.ReadLine();
+            char collumn = s[0];
+            int range = int.Parse(s[1] + "");
+            return new ChessPosition(collumn, range);
         }
     }
 }
