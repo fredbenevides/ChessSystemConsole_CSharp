@@ -22,7 +22,6 @@ namespace ChessSystemConsole
             board.PlacePiece(new King(board, Color.Black), new Position(2, 4));
             UI.PrintBoard(board);
             Position p = new Position(0, 0);
-            Console.WriteLine(board.ValidPosition(p));
         }
     }
 }
