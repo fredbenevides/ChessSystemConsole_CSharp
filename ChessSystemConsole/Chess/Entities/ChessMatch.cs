@@ -1,14 +1,15 @@
 ﻿using System;
 using GenericBoard.Entities;
 using GenericBoard.Entities.Enums;
+using GenericBoard.Exceptions;
 namespace Chess.Entities
 {
     public class ChessMatch
     {
     
         public Board board { get; private set; }
-        private int turn;
-        private Color currentPlayer;
+        public int turn { get; private set; }
+        public Color currentPlayer { get; private set; }
         public bool finished { get; private set; }
 
         public ChessMatch()
@@ -26,6 +27,48 @@ namespace Chess.Entities
             piece.IncreaseQuantityOfMoves();
             Piece capturedPiece =  board.RemovePiece(target);
             board.PlacePiece(piece, target);
+        }
+
+        public void RealiseMove(Position origin, Position target)
+        {
+            MakeMove(origin, target);
+            turn++;
+            ChangePlayer();
+        }
+
+        public void ChangePlayer()
+        {
+           if(currentPlayer == Color.White)
+            {
+                currentPlayer = Color.Black;
+            }
+            else
+            {
+                currentPlayer = Color.White;
+            }
+        }
+
+        public void ValidateOriginPosition(Position position)
+        {
+            if(!board.ThereIsAPiece(position))
+            {
+                throw new BoardException("There is no piece on the origin position selected!");
+            }
+            if(currentPlayer != board.Piece(position).Color)
+            {
+                throw new BoardException("The selected piece is not yours!");
+            }
+            if (!board.Piece(position).ThereIsAPossibleMove()){
+                throw new BoardException("There is no possible move for the selected piece!");
+            }
+        }
+
+        public void ValidateTargetPosition(Position origin, Position target)
+        {
+            if (!board.Piece(origin).CanMoveTo(target))
+            {
+                throw new BoardException("Invalid target position!");
+            }
         }
 
         private void PlacePieces()

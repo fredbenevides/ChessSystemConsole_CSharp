@@ -26,6 +26,27 @@ namespace GenericBoard.Entities
             QuantityOfMoves++;
         }
 
+        public bool ThereIsAPossibleMove()
+        {
+            bool[,] mat = PossibleTargetPositions();
+            for(int i = 0; i < Board.Ranges; i++)
+            {
+                for(int j = 0; j < Board.Collumns; j++)
+                {
+                    if(mat[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool CanMoveTo(Position position)
+        {
+            return PossibleTargetPositions()[position.Range, position.Collumn];
+        }
+
         public abstract bool[,] PossibleTargetPositions();
     }
 }
