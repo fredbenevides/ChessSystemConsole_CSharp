@@ -29,11 +29,11 @@ namespace GenericBoard.Entities
         public bool ThereIsAPossibleMove()
         {
             bool[,] mat = PossibleTargetPositions();
-            for(int i = 0; i < Board.Ranges; i++)
+            for (int i = 0; i < Board.Ranges; i++)
             {
-                for(int j = 0; j < Board.Collumns; j++)
+                for (int j = 0; j < Board.Collumns; j++)
                 {
-                    if(mat[i, j])
+                    if (mat[i, j])
                     {
                         return true;
                     }
@@ -42,7 +42,7 @@ namespace GenericBoard.Entities
             return false;
         }
 
-        public bool CanMoveTo(Position position)
+        public bool PossibleMove(Position position)
         {
             return PossibleTargetPositions()[position.Range, position.Collumn];
         }

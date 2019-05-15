@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GenericBoard.Entities;
 using GenericBoard.Entities.Enums;
 using Chess.Entities;
@@ -6,6 +7,38 @@ namespace ChessSystemConsole
 {
     public class UI
     {
+        public static void PrintMatch(ChessMatch match)
+        {
+            PrintBoard(match.board);
+            Console.WriteLine();
+            PrintCapturedPieces(match);
+            Console.WriteLine("Turn: " + match.turn);
+            Console.WriteLine("Waiting for player: " + match.currentPlayer);
+        }
+
+        public static void PrintCapturedPieces(ChessMatch match)
+        {
+            Console.WriteLine("Captured Pieces");
+            Console.Write("White: ");
+            PrintCollection(match.CapturedPieces(Color.White));
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("Black: ");
+            PrintCollection(match.CapturedPieces(Color.Black));
+            Console.ForegroundColor = aux;
+            Console.WriteLine();
+
+        }
+
+        public static void PrintCollection(HashSet<Piece> collection)
+        {
+            Console.Write("[");
+            foreach(Piece x in collection)
+            {
+                Console.Write(x + " ");
+            }
+            Console.WriteLine("]");
+        }
         public static void PrintBoard(Board board)
         {
             ConsoleColor aux = Console.ForegroundColor;
