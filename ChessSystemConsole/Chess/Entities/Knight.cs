@@ -3,9 +3,9 @@ using GenericBoard.Entities;
 
 namespace Chess.Entities
 {
-    public class King : Piece
+    public class Knight : Piece
     {
-        public King(Board board, Color color) : base(color, board)
+        public Knight(Board board, Color color) : base(color, board)
         {
         }
 
@@ -20,49 +20,49 @@ namespace Chess.Entities
             bool[,] mat = new bool[Board.Ranges, Board.Collumns];
             Position p = new Position(0, 0);
 
-            p.DefinePosition(Position.Range - 1, Position.Collumn - 1);
-            if(Board.ValidPosition(p) && CanMoveTo(p))
-            {
-                mat[p.Range, p.Collumn] = true;
-            }
-
-            p.DefinePosition(Position.Range - 1, Position.Collumn);
+            p.DefinePosition(Position.Range - 1, Position.Collumn - 2);
             if (Board.ValidPosition(p) && CanMoveTo(p))
             {
                 mat[p.Range, p.Collumn] = true;
             }
 
-            p.DefinePosition(Position.Range - 1, Position.Collumn + 1);
+            p.DefinePosition(Position.Range - 2, Position.Collumn - 1);
             if (Board.ValidPosition(p) && CanMoveTo(p))
             {
                 mat[p.Range, p.Collumn] = true;
             }
 
-            p.DefinePosition(Position.Range, Position.Collumn - 1);
+            p.DefinePosition(Position.Range - 2, Position.Collumn + 1);
             if (Board.ValidPosition(p) && CanMoveTo(p))
             {
                 mat[p.Range, p.Collumn] = true;
             }
 
-            p.DefinePosition(Position.Range, Position.Collumn + 1);
+            p.DefinePosition(Position.Range - 1, Position.Collumn + 2);
             if (Board.ValidPosition(p) && CanMoveTo(p))
             {
                 mat[p.Range, p.Collumn] = true;
             }
 
-            p.DefinePosition(Position.Range + 1, Position.Collumn - 1);
+            p.DefinePosition(Position.Range + 1, Position.Collumn + 2);
             if (Board.ValidPosition(p) && CanMoveTo(p))
             {
                 mat[p.Range, p.Collumn] = true;
             }
 
-            p.DefinePosition(Position.Range + 1, Position.Collumn);
+            p.DefinePosition(Position.Range + 2, Position.Collumn + 1);
             if (Board.ValidPosition(p) && CanMoveTo(p))
             {
                 mat[p.Range, p.Collumn] = true;
             }
 
-            p.DefinePosition(Position.Range + 1, Position.Collumn + 1);
+            p.DefinePosition(Position.Range + 2, Position.Collumn - 1);
+            if (Board.ValidPosition(p) && CanMoveTo(p))
+            {
+                mat[p.Range, p.Collumn] = true;
+            }
+
+            p.DefinePosition(Position.Range + 1, Position.Collumn - 2);
             if (Board.ValidPosition(p) && CanMoveTo(p))
             {
                 mat[p.Range, p.Collumn] = true;
@@ -71,9 +71,10 @@ namespace Chess.Entities
             return mat;
         }
 
+
         public override string ToString()
         {
-            return "K";
+            return "N";
         }
     }
 }
