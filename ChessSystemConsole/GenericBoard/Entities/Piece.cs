@@ -26,6 +26,11 @@ namespace GenericBoard.Entities
             QuantityOfMoves++;
         }
 
+        public void DecreaseQuantityOfMoves()
+        {
+            QuantityOfMoves--;
+        }
+
         public bool ThereIsAPossibleMove()
         {
             bool[,] mat = PossibleTargetPositions();

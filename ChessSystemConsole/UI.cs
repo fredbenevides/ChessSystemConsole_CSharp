@@ -14,6 +14,10 @@ namespace ChessSystemConsole
             PrintCapturedPieces(match);
             Console.WriteLine("Turn: " + match.turn);
             Console.WriteLine("Waiting for player: " + match.currentPlayer);
+            if (match.check)
+            {
+                Console.WriteLine("CHECK!");
+            }
         }
 
         public static void PrintCapturedPieces(ChessMatch match)
