@@ -13,10 +13,18 @@ namespace ChessSystemConsole
             Console.WriteLine();
             PrintCapturedPieces(match);
             Console.WriteLine("Turn: " + match.turn);
-            Console.WriteLine("Waiting for player: " + match.currentPlayer);
-            if (match.check)
+            if (!match.finished)
             {
-                Console.WriteLine("CHECK!");
+                Console.WriteLine("Waiting for player: " + match.currentPlayer);
+                if (match.check)
+                {
+                    Console.WriteLine("CHECK!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("CHECKMATE!");
+                Console.WriteLine("Winner: " + match.currentPlayer);
             }
         }
 
@@ -37,7 +45,7 @@ namespace ChessSystemConsole
         public static void PrintCollection(HashSet<Piece> collection)
         {
             Console.Write("[");
-            foreach(Piece x in collection)
+            foreach (Piece x in collection)
             {
                 Console.Write(x + " ");
             }
@@ -52,9 +60,9 @@ namespace ChessSystemConsole
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write(8 - i + " ");
                 Console.ForegroundColor = aux;
-                for(int j = 0; j < board.Collumns; j++)
+                for (int j = 0; j < board.Collumns; j++)
                 {
-                    if(board.Piece(i, j) == null)
+                    if (board.Piece(i, j) == null)
                     {
                         if ((i + j) % 2 == 0)
                         {
@@ -94,7 +102,7 @@ namespace ChessSystemConsole
                 Console.ForegroundColor = aux;
                 for (int j = 0; j < board.Collumns; j++)
                 {
-                    if(possibleMoves[i, j])
+                    if (possibleMoves[i, j])
                     {
                         Console.BackgroundColor = AlternativeBackground;
                     }
@@ -135,7 +143,7 @@ namespace ChessSystemConsole
         public static void PrintPiece(Piece piece)
         {
             ConsoleColor aux = Console.ForegroundColor;
-            if(piece.Color == Color.White)
+            if (piece.Color == Color.White)
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write(piece);

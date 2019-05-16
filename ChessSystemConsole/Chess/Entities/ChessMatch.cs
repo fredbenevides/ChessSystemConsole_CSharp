@@ -34,7 +34,7 @@ namespace Chess.Entities
             piece.IncreaseQuantityOfMoves();
             Piece capturedPiece = board.RemovePiece(target);
             board.PlacePiece(piece, target);
-            if(capturedPiece != null)
+            if (capturedPiece != null)
             {
                 captured.Add(capturedPiece);
             }
@@ -56,14 +56,21 @@ namespace Chess.Entities
         public void RealiseMove(Position origin, Position target)
         {
             Piece capturedPiece = MakeMove(origin, target);
-            if (IsInCheck(currentPlayer))
+            if (IsCheck(currentPlayer))
             {
                 UndoMove(origin, target, capturedPiece);
                 throw new BoardException("This move is not allowed! You can't put yourself in check!");
             }
-            check = IsInCheck(Opponent(currentPlayer));
-            turn++;
-            ChangePlayer();
+            check = IsCheck(Opponent(currentPlayer));
+            if (IsCheckmate(Opponent(currentPlayer)))
+            {
+                finished = true;
+            }
+            else
+            {
+                turn++;
+                ChangePlayer();
+            }
         }
 
         public void ChangePlayer()
@@ -78,9 +85,9 @@ namespace Chess.Entities
 
         private Piece King(Color color)
         {
-            foreach(Piece x in PiecesOnTheBoard(color))
+            foreach (Piece x in PiecesOnTheBoard(color))
             {
-                if(x is King)
+                if (x is King)
                 {
                     return x;
                 }
@@ -88,14 +95,14 @@ namespace Chess.Entities
             return null;
         }
 
-        public bool IsInCheck(Color color)
+        public bool IsCheck(Color color)
         {
             Piece k = King(color);
             if (k == null)
             {
                 throw new BoardException("There is no " + color + " king on the board!");
             }
-            foreach(Piece x in PiecesOnTheBoard(Opponent(color)))
+            foreach (Piece x in PiecesOnTheBoard(Opponent(color)))
             {
                 bool[,] mat = x.PossibleTargetPositions();
                 if (mat[k.Position.Range, k.Position.Collumn])
@@ -104,6 +111,37 @@ namespace Chess.Entities
                 }
             }
             return false;
+        }
+
+        public bool IsCheckmate(Color color)
+        {
+            if (!IsCheck(color))
+            {
+                return false;
+            }
+            foreach (Piece x in PiecesOnTheBoard(color))
+            {
+                bool[,] mat = x.PossibleTargetPositions();
+                for (int i = 0; i < board.Ranges; i++)
+                {
+                    for (int j = 0; j < board.Collumns; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position origin = x.Position;
+                            Position target = new Position(i, j);
+                            Piece capturedPiece = MakeMove(origin, target);
+                            bool testCheck = IsCheck(color);
+                            UndoMove(origin, target, capturedPiece);
+                            if (!testCheck)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
         public HashSet<Piece> CapturedPieces(Color color)
