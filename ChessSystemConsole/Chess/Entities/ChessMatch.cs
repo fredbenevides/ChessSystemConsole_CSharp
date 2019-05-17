@@ -51,26 +51,120 @@ namespace Chess.Entities
                 captured.Remove(capturedPiece);
             }
             board.PlacePiece(p, origin);
+            if (IsCastle(origin, target))
+            {
+                if(origin.Collumn < target.Collumn)
+                {
+                    Position originPositionRook = new Position(origin.Range, origin.Collumn + 3);
+                    Position targetPositionRook = new Position(origin.Range, origin.Collumn + 1);
+                    Piece piece = board.RemovePiece(targetPositionRook);
+                    piece.DecreaseQuantityOfMoves();
+                    board.PlacePiece(piece, originPositionRook);
+                }
+                else
+                {
+                    Position originPositionRook = new Position(origin.Range, origin.Collumn - 4);
+                    Position targetPositionRook = new Position(origin.Range, origin.Collumn - 1);
+                    Piece piece = board.RemovePiece(targetPositionRook);
+                    piece.DecreaseQuantityOfMoves();
+                    board.PlacePiece(piece, originPositionRook);
+                }
+            }
         }
 
         public void RealiseMove(Position origin, Position target)
         {
-            Piece capturedPiece = MakeMove(origin, target);
-            if (IsCheck(currentPlayer))
+            if (!IsCastle(origin, target))
             {
-                UndoMove(origin, target, capturedPiece);
-                throw new BoardException("This move is not allowed! You can't put yourself in check!");
-            }
-            check = IsCheck(Opponent(currentPlayer));
-            if (IsCheckmate(Opponent(currentPlayer)))
-            {
-                finished = true;
+                Piece capturedPiece = MakeMove(origin, target);
+                if (IsCheck(currentPlayer))
+                {
+                    UndoMove(origin, target, capturedPiece);
+                    throw new BoardException("This move is not allowed! You can't put yourself in check!");
+                }
+                check = IsCheck(Opponent(currentPlayer));
+                if (IsCheckmate(Opponent(currentPlayer)))
+                {
+                    finished = true;
+                }
+                else
+                {
+                    turn++;
+                    ChangePlayer();
+                }
             }
             else
             {
-                turn++;
-                ChangePlayer();
+                if (origin.Collumn < target.Collumn) // roque pequeno
+                {
+                    Piece capturedPiece = MakeMove(origin, new Position(origin.Range, origin.Collumn + 1));
+                    if (IsCheck(currentPlayer))
+                    {
+                        UndoMove(origin, new Position(origin.Range, origin.Collumn + 1), capturedPiece);
+                        throw new BoardException("This move is not allowed! The king can not pass over a square in threat!");
+                    }
+                    UndoMove(origin, new Position(origin.Range, origin.Collumn + 1), capturedPiece);
+                    capturedPiece = MakeMove(origin, target);
+                    Position originPositionRook = new Position(origin.Range, origin.Collumn + 3);
+                    Position targetPositionRook = new Position(origin.Range, origin.Collumn + 1);
+                    Piece piece = board.RemovePiece(originPositionRook);
+                    piece.IncreaseQuantityOfMoves();
+                    board.PlacePiece(piece, targetPositionRook);
+                    if (IsCheck(currentPlayer))
+                    {
+                        UndoMove(origin, target, capturedPiece);
+                        throw new BoardException("This move is not allowed! You can't put yourself in check!");
+                    }
+                    check = IsCheck(Opponent(currentPlayer));
+                    if (IsCheckmate(Opponent(currentPlayer)))
+                    {
+                        finished = true;
+                    }
+                    else
+                    {
+                        turn++;
+                        ChangePlayer();
+                    }
+                }
+                else //roque grande
+                {
+                    Piece capturedPiece = MakeMove(origin, new Position(origin.Range, origin.Collumn - 1));
+                    if (IsCheck(currentPlayer))
+                    {
+                        UndoMove(origin, new Position(origin.Range, origin.Collumn - 1), capturedPiece);
+                        throw new BoardException("This move is not allowed! The king can not pass over a square in threat!");
+                    }
+                    UndoMove(origin, new Position(origin.Range, origin.Collumn - 1), capturedPiece);
+                    capturedPiece = MakeMove(origin, target);
+                    Position originPositionRook = new Position(origin.Range, origin.Collumn - 4);
+                    Position targetPositionRook = new Position(origin.Range, origin.Collumn - 1);
+                    Piece piece = board.RemovePiece(originPositionRook);
+                    piece.IncreaseQuantityOfMoves();
+                    board.PlacePiece(piece, targetPositionRook);
+                    if (IsCheck(currentPlayer))
+                    {
+                        UndoMove(origin, target, capturedPiece);
+                        throw new BoardException("This move is not allowed! You can't put yourself in check!");
+                    }
+                    check = IsCheck(Opponent(currentPlayer));
+                    if (IsCheckmate(Opponent(currentPlayer)))
+                    {
+                        finished = true;
+                    }
+                    else
+                    {
+                        turn++;
+                        ChangePlayer();
+                    }
+                }
             }
+        }
+
+
+
+        private bool IsCastle(Position origin, Position target)
+        {
+            return (board.Piece(origin) is King) && ((origin.Collumn == target.Collumn - 2) || (origin.Collumn == target.Collumn + 2));
         }
 
         public void ChangePlayer()
@@ -204,38 +298,38 @@ namespace Chess.Entities
         private void PlacePieces()
         {
             PlaceNewPiece('a', 1, new Rook(board, Color.White));
-            PlaceNewPiece('b', 1, new Knight(board, Color.White));
-            PlaceNewPiece('c', 1, new Bishop(board, Color.White));
-            PlaceNewPiece('d', 1, new Queen(board, Color.White));
-            PlaceNewPiece('e', 1, new King(board, Color.White));
+            //PlaceNewPiece('b', 1, new Knight(board, Color.White));
+            //PlaceNewPiece('c', 1, new Bishop(board, Color.White));
+            //PlaceNewPiece('d', 1, new Queen(board, Color.White));
+            PlaceNewPiece('e', 1, new King(board, Color.White, this));
             PlaceNewPiece('f', 1, new Bishop(board, Color.White));
             PlaceNewPiece('g', 1, new Knight(board, Color.White));
             PlaceNewPiece('h', 1, new Rook(board, Color.White));
-            PlaceNewPiece('a', 2, new Pawn(board, Color.White));
-            PlaceNewPiece('b', 2, new Pawn(board, Color.White));
-            PlaceNewPiece('c', 2, new Pawn(board, Color.White));
-            PlaceNewPiece('d', 2, new Pawn(board, Color.White));
-            PlaceNewPiece('e', 2, new Pawn(board, Color.White));
-            PlaceNewPiece('f', 2, new Pawn(board, Color.White));
-            PlaceNewPiece('g', 2, new Pawn(board, Color.White));
-            PlaceNewPiece('h', 2, new Pawn(board, Color.White));
+            //PlaceNewPiece('a', 2, new Pawn(board, Color.White));
+            //PlaceNewPiece('b', 2, new Pawn(board, Color.White));
+            //PlaceNewPiece('c', 2, new Pawn(board, Color.White));
+            //PlaceNewPiece('d', 2, new Pawn(board, Color.White));
+            //PlaceNewPiece('e', 2, new Pawn(board, Color.White));
+            //PlaceNewPiece('f', 2, new Pawn(board, Color.White));
+            //PlaceNewPiece('g', 2, new Pawn(board, Color.White));
+            //PlaceNewPiece('h', 2, new Pawn(board, Color.White));
 
             PlaceNewPiece('a', 8, new Rook(board, Color.Black));
             PlaceNewPiece('b', 8, new Knight(board, Color.Black));
             PlaceNewPiece('c', 8, new Bishop(board, Color.Black));
             PlaceNewPiece('d', 8, new Queen(board, Color.Black));
-            PlaceNewPiece('e', 8, new King(board, Color.Black));
-            PlaceNewPiece('f', 8, new Bishop(board, Color.Black));
-            PlaceNewPiece('g', 8, new Knight(board, Color.Black));
+            PlaceNewPiece('e', 8, new King(board, Color.Black, this));
+            //PlaceNewPiece('f', 8, new Bishop(board, Color.Black));
+            //PlaceNewPiece('g', 8, new Knight(board, Color.Black));
             PlaceNewPiece('h', 8, new Rook(board, Color.Black));
-            PlaceNewPiece('a', 7, new Pawn(board, Color.Black));
-            PlaceNewPiece('b', 7, new Pawn(board, Color.Black));
-            PlaceNewPiece('c', 7, new Pawn(board, Color.Black));
-            PlaceNewPiece('d', 7, new Pawn(board, Color.Black));
-            PlaceNewPiece('e', 7, new Pawn(board, Color.Black));
-            PlaceNewPiece('f', 7, new Pawn(board, Color.Black));
-            PlaceNewPiece('g', 7, new Pawn(board, Color.Black));
-            PlaceNewPiece('h', 7, new Pawn(board, Color.Black));
+            //PlaceNewPiece('a', 7, new Pawn(board, Color.Black));
+            //PlaceNewPiece('b', 7, new Pawn(board, Color.Black));
+            //PlaceNewPiece('c', 7, new Pawn(board, Color.Black));
+            //PlaceNewPiece('d', 7, new Pawn(board, Color.Black));
+            //PlaceNewPiece('e', 7, new Pawn(board, Color.Black));
+            //PlaceNewPiece('f', 7, new Pawn(board, Color.Black));
+            //PlaceNewPiece('g', 7, new Pawn(board, Color.Black));
+            //PlaceNewPiece('h', 7, new Pawn(board, Color.Black));
         }
     }
 }
