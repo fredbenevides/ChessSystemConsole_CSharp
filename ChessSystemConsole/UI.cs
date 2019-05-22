@@ -9,13 +9,13 @@ namespace ChessSystemConsole
     {
         public static void PrintMatch(ChessMatch match)
         {
-            PrintBoard(match.board);
+            PrintBoard(match.Board);
             Console.WriteLine();
             PrintCapturedPieces(match);
-            Console.WriteLine("Turn: " + match.turn);
+            Console.WriteLine("Turn: " + match.Turn);
             if (!match.Finished)
             {
-                Console.WriteLine("Waiting for player: " + match.currentPlayer);
+                Console.WriteLine("Waiting for player: " + match.CurrentPlayer);
                 if (match.Check)
                 {
                     Console.WriteLine("CHECK!");
@@ -24,7 +24,7 @@ namespace ChessSystemConsole
             else
             {
                 Console.WriteLine("CHECKMATE!");
-                Console.WriteLine("Winner: " + match.currentPlayer);
+                Console.WriteLine("Winner: " + match.CurrentPlayer);
             }
         }
 
@@ -39,7 +39,6 @@ namespace ChessSystemConsole
             PrintCollection(match.CapturedPieces(Color.Black));
             Console.ForegroundColor = aux;
             Console.WriteLine();
-
         }
 
         public static void PrintCollection(HashSet<Piece> collection)
@@ -51,12 +50,12 @@ namespace ChessSystemConsole
             }
             Console.WriteLine("]");
         }
+
         public static void PrintBoard(Board board)
         {
             ConsoleColor aux = Console.ForegroundColor;
             for (int i = 0; i < board.Ranges; i++)
             {
-
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write(8 - i + " ");
                 Console.ForegroundColor = aux;
@@ -102,14 +101,7 @@ namespace ChessSystemConsole
                 Console.ForegroundColor = aux;
                 for (int j = 0; j < board.Collumns; j++)
                 {
-                    if (possibleMoves[i, j])
-                    {
-                        Console.BackgroundColor = AlternativeBackground;
-                    }
-                    else
-                    {
-                        Console.BackgroundColor = OriginalBackground;
-                    }
+                    Console.BackgroundColor = possibleMoves[i, j] ? AlternativeBackground : OriginalBackground;
                     if (board.Piece(i, j) == null)
                     {
                         if ((i + j) % 2 == 0)
@@ -137,7 +129,6 @@ namespace ChessSystemConsole
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("  a b c d e f g h");
             Console.ForegroundColor = aux;
-            //Console.BackgroundColor = OriginalBackground;
         }
 
         public static void PrintPiece(Piece piece)

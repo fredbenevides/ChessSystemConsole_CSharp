@@ -1,28 +1,26 @@
-﻿using System;
-using GenericBoard.Entities.Enums;
-using GenericBoard.Entities;
+﻿using GenericBoard.Entities;
 
 namespace Chess.Entities
 {
     public class ChessPosition
     {
-        public char collumn { get; set; }
-        public int range { get; set; }
+        public char Collumn { get; set; }
+        public int Range { get; set; }
 
         public ChessPosition(char collumn, int range)
         {
-            this.collumn = collumn;
-            this.range = range;
+            Collumn = collumn;
+            Range = range;
         }
 
-        public Position toPosition()
+        public Position ToPosition()
         {
-            return new Position(8 - range, collumn - 'a');
+            return new Position(8 - Range, Collumn - 'a');
         }
 
         public override string ToString()
         {
-            return "" + collumn + range;
+            return "" + Collumn + Range;
         }
     }
 }

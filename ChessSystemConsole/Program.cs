@@ -1,6 +1,5 @@
 ﻿using System;
 using GenericBoard.Entities;
-using GenericBoard.Entities.Enums;
 using GenericBoard.Exceptions;
 using Chess.Entities;
 
@@ -19,14 +18,14 @@ namespace ChessSystemConsole
                     UI.PrintMatch(match);
                     Console.WriteLine();
                     Console.Write("Origin: ");
-                    Position origin = UI.ReadChessPosition().toPosition();
+                    Position origin = UI.ReadChessPosition().ToPosition();
                     match.ValidateOriginPosition(origin);
-                    bool[,] PossibleMoves = match.board.Piece(origin).PossibleTargetPositions();
+                    bool[,] PossibleMoves = match.Board.Piece(origin).PossibleTargetPositions();
                     Console.Clear();
-                    UI.PrintBoard(match.board, PossibleMoves);
+                    UI.PrintBoard(match.Board, PossibleMoves);
                     Console.WriteLine();
                     Console.Write("Target: ");
-                    Position target = UI.ReadChessPosition().toPosition();
+                    Position target = UI.ReadChessPosition().ToPosition();
                     match.ValidateTargetPosition(origin, target);
                     match.RealiseMove(origin, target);
                 }

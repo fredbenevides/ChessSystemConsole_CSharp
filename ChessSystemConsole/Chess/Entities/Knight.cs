@@ -67,10 +67,8 @@ namespace Chess.Entities
             {
                 mat[p.Range, p.Collumn] = true;
             }
-
             return mat;
         }
-
 
         public override string ToString()
         {

@@ -20,7 +20,7 @@ namespace Chess.Entities
             bool[,] mat = new bool[Board.Ranges, Board.Collumns];
             Position p = new Position(0, 0);
 
-            p.DefinePosition(Position.Range - 1, Position.Collumn -1);
+            p.DefinePosition(Position.Range - 1, Position.Collumn - 1);
             while (Board.ValidPosition(p) && CanMoveTo(p))
             {
                 mat[p.Range, p.Collumn] = true;

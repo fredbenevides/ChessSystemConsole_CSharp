@@ -24,11 +24,11 @@ namespace Chess.Entities
             while (Board.ValidPosition(p) && CanMoveTo(p))
             {
                 mat[p.Range, p.Collumn] = true;
-                if(Board.Piece(p) != null && Board.Piece(p).Color != Color)
+                if (Board.Piece(p) != null && Board.Piece(p).Color != Color)
                 {
                     break;
                 }
-                p.Range = p.Range - 1;
+                p.Range -= 1;
             }
 
             p.DefinePosition(Position.Range + 1, Position.Collumn);
@@ -39,7 +39,7 @@ namespace Chess.Entities
                 {
                     break;
                 }
-                p.Range = p.Range +1;
+                p.Range += 1;
             }
 
             p.DefinePosition(Position.Range, Position.Collumn - 1);
@@ -50,7 +50,7 @@ namespace Chess.Entities
                 {
                     break;
                 }
-                p.Collumn = p.Collumn - 1;
+                p.Collumn -= 1;
             }
 
             p.DefinePosition(Position.Range, Position.Collumn + 1);
@@ -61,9 +61,8 @@ namespace Chess.Entities
                 {
                     break;
                 }
-                p.Collumn = p.Collumn + 1;
+                p.Collumn += 1;
             }
-
             return mat;
         }
 

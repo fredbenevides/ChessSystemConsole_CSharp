@@ -1,5 +1,4 @@
-﻿using GenericBoard.Entities;
-using GenericBoard.Exceptions;
+﻿using GenericBoard.Exceptions;
 
 namespace GenericBoard.Entities
 {
@@ -58,7 +57,10 @@ namespace GenericBoard.Entities
             return aux;
         }
 
-        public bool ValidPosition(Position position) => position.Range >= 0 && position.Range < Ranges && position.Collumn >= 0 && position.Collumn < Collumns;
+        public bool ValidPosition(Position position)
+        {
+            return position.Range >= 0 && position.Range < Ranges && position.Collumn >= 0 && position.Collumn < Collumns;
+        }
 
         public void ValidatePosition(Position position)
         {
