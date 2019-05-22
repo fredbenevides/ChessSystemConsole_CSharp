@@ -11,13 +11,12 @@ namespace ChessSystemConsole
         static void Main(string[] args)
         {
             ChessMatch match = new ChessMatch();
-            while (!match.finished)
+            while (!match.Finished)
             {
                 try
                 {
                     Console.Clear();
                     UI.PrintMatch(match);
-
                     Console.WriteLine();
                     Console.Write("Origin: ");
                     Position origin = UI.ReadChessPosition().toPosition();

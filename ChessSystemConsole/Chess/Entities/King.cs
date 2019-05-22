@@ -83,7 +83,7 @@ namespace Chess.Entities
                 mat[p.Range, p.Collumn] = true;
             }
 
-            if (QuantityOfMoves == 0 && !Match.check)
+            if (QuantityOfMoves == 0 && !Match.Check)
             {
                 Position rookPosition = new Position(Position.Range, Position.Collumn + 3);
                 if (TestRook(rookPosition))

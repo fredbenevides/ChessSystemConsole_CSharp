@@ -5,8 +5,10 @@ namespace Chess.Entities
 {
     public class Pawn : Piece
     {
-        public Pawn(Board board, Color color) : base(color, board)
+        private ChessMatch match;
+        public Pawn(Board board, Color color, ChessMatch match) : base(color, board)
         {
+            this.match = match;
         }
 
         private bool ThereIsFoe(Position position)
@@ -24,6 +26,8 @@ namespace Chess.Entities
         {
             bool[,] mat = new bool[Board.Ranges, Board.Collumns];
             Position p = new Position(0, 0);
+            Position left = new Position(Position.Range, Position.Collumn - 1);
+            Position right = new Position(Position.Range, Position.Collumn + 1);
 
             if (Color == Color.White)
             {
@@ -47,6 +51,17 @@ namespace Chess.Entities
                 {
                     mat[p.Range, p.Collumn] = true;
                 }
+                if (Position.Range == 3)
+                {
+                    if (Board.ValidPosition(left) && ThereIsFoe(left) && Board.Piece(left) == match.VulnerableEnPassant)
+                    {
+                        mat[Position.Range - 1, Position.Collumn - 1] = true;
+                    }
+                    if (Board.ValidPosition(right) && ThereIsFoe(right) && Board.Piece(right) == match.VulnerableEnPassant)
+                    {
+                        mat[Position.Range - 1, Position.Collumn + 1] = true;
+                    }
+                }
             }
             else
             {
@@ -69,6 +84,17 @@ namespace Chess.Entities
                 if (Board.ValidPosition(p) && ThereIsFoe(p))
                 {
                     mat[p.Range, p.Collumn] = true;
+                }
+                if (Position.Range == 4)
+                {
+                    if (Board.ValidPosition(left) && ThereIsFoe(left) && Board.Piece(left) == match.VulnerableEnPassant)
+                    {
+                        mat[Position.Range + 1, Position.Collumn - 1] = true;
+                    }
+                    if (Board.ValidPosition(right) && ThereIsFoe(right) && Board.Piece(right) == match.VulnerableEnPassant)
+                    {
+                        mat[Position.Range + 1, Position.Collumn + 1] = true;
+                    }
                 }
             }
             return mat;
